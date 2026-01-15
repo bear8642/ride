@@ -489,11 +489,13 @@ D.Se.prototype = {
       }
     }
     if (se.promptType === 3 && curr.group > 0) {
+      const pre20 = +D.remoteIdentification.version.slice(0, 2) < 20;
+      const className = pre20 ? 'group_end' : 'group_end cancelable';
       se.groupDecorations.push({
         range: new monaco.Range(rows, 1, rows, 1),
         options: {
           isWholeLine: false,
-          glyphMarginClassName: 'group_end cancelable',
+          glyphMarginClassName: className,
           stickiness: monaco.editor.TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges,
         },
       });
