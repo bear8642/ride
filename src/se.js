@@ -503,8 +503,8 @@ D.Se.prototype = {
   },
   setLineGroup(offset, group) {
     const se = this;
-    // offset needs to account for extra line when in multi line mode
-    const o = se.promptType === 3 ? offset + 1 : offset;
+    // offset needs to account for extra, non-terminated line when in multi line mode
+    const o = (se.promptType === 3 && se.lines.at(-1).text.at(-1) !== '\n') ? offset + 1 : offset;
     if (o > 0) {
       const li = se.lines.length - o;
       const oldGroup = se.lines[li].group;
