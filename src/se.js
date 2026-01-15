@@ -391,6 +391,8 @@ D.Se.prototype = {
       se.groupid += 1;
       se.lines.slice(block.start - 1, block.end).forEach((ll) => { ll.group = se.groupid; });
       se.setDecorations();
+    } else if (wasMultiLine && x !== 3 && D.apiVersion >= 1 && se.lines.at(-1).text === '      ') {
+      se.lines.pop();
     }
     if (promptChanged) {
       if (x) delete se.cursorPosition;
@@ -499,8 +501,10 @@ D.Se.prototype = {
   },
   setLineGroup(offset, group) {
     const se = this;
-    if (offset > 0) {
-      const li = se.lines.length - offset;
+    // offset needs to account for extra line when in multi line mode
+    const o = se.promptType === 3 ? offset + 1 : offset;
+    if (o > 0) {
+      const li = se.lines.length - o;
       const oldGroup = se.lines[li].group;
       const block = se.multiLineBlocks[group] || {};
       const oldBlock = se.multiLineBlocks[oldGroup] || {};
@@ -511,8 +515,8 @@ D.Se.prototype = {
       } else if (oldBlock.end === li + 1) {
         oldBlock.end = li; // shift group to end on previous line
       }
+      se.lines[li].group = group;
       if (group > 0) { // create new block or update exisiting
-        se.lines[li].group = group;
         if (!block.start || block.start > li) block.start = li + 1;
         if (!block.end || block.end <= li) block.end = li + 1;
         se.multiLineBlocks[group] = block;
