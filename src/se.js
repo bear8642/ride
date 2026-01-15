@@ -400,7 +400,7 @@ D.Se.prototype = {
     }
     if ((x === 1 && this.dirty[line] == null) || ![0, 1, 3, 4].includes(x)) {
       const isEmpty = /^\s*$/.test(t);
-      const text = isEmpty ? ssp : `${t}\n${ssp}`;
+      const text = isEmpty ? ssp : t;
       se.edit(
         [{ range: new monaco.Range(line, 1, line, column), text }],
         (promptChanged || !isEmpty)
