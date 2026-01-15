@@ -93,7 +93,7 @@ D.Se = function Se(ide) { // constructor
       e.event.preventDefault();
       e.event.stopPropagation();
     } else if (t.type === mt.GUTTER_GLYPH_MARGIN) {
-      if (p.lineNumber === se.lines.length + 1) {
+      if (p.lineNumber === se.lines.length) {
         this.EMI();
       }
     } else if (t.type === mt.CONTENT_TEXT) {
